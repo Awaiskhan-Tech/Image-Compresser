@@ -1,0 +1,6 @@
+{
+  "name": "Webistic Image Compressor",
+  "description": "Fast, privacy-first image compressor to reach exact target KB or MB limits with maximum visual quality. Powered by Webistic.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
