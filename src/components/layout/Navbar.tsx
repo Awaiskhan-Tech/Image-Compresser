@@ -1,69 +1,147 @@
-import React from 'react';
-import { Layers } from 'lucide-react';
+
+import React, { useState } from 'react';
+import { Link, NavLink } from 'react-router-dom';
+import { Layers, Menu, X } from 'lucide-react';
 
 interface NavbarProps {
-  onScrollToSection: (sectionId: string) => void;
   onUploadClick: () => void;
 }
 
-export const Navbar: React.FC<NavbarProps> = ({ onScrollToSection, onUploadClick }) => {
+export const Navbar: React.FC<NavbarProps> = ({ onUploadClick }) => {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const navigationLinks = [
+    { label: 'Home', path: '/' },
+    { label: 'Presets Guide', path: '/presets-guide' },
+    { label: 'Privacy Architecture', path: '/privacy-architecture' },
+    { label: 'How It Works', path: '/how-it-works' },
+    { label: 'FAQ', path: '/faq' },
+  ];
+
+  const linkClass = ({ isActive }: { isActive: boolean }) =>
+    `transition-colors whitespace-nowrap ${
+      isActive
+        ? 'text-black font-bold'
+        : 'text-black/70 hover:text-[#2563FF]'
+    }`;
+
+  const handleNavigation = () => {
+    setMobileMenuOpen(false);
+  };
+
+  const handleMobileUpload = () => {
+    setMobileMenuOpen(false);
+    onUploadClick();
+  };
+
   return (
-    <header className="sticky top-0 z-50 bg-[#25282B] text-[#E8DFC9] border-b border-[#E8DFC9]/15">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-8">
-        {/* Zone 1: Brand Wordmark */}
-        <div className="flex items-center gap-2.5 sm:gap-3 shrink-0">
-          <div className="w-8 h-8 rounded-lg bg-[#2563FF] text-[#E8DFC9] flex items-center justify-center shrink-0">
+    <header className="sticky top-0 z-50 bg-white text-black border-b border-gray-200">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
+
+        {/* Brand Wordmark */}
+        <Link
+          to="/"
+          onClick={handleNavigation}
+          className="flex items-center gap-2.5 sm:gap-3 shrink-0"
+        >
+          <div className="w-8 h-8 rounded-lg bg-[#2563FF] text-white flex items-center justify-center shrink-0">
             <Layers className="w-4 h-4" />
           </div>
+
           <div className="flex flex-col min-w-0">
-            <span className="text-sm sm:text-base font-bold tracking-tight text-[#E8DFC9] whitespace-nowrap">
-              Webistic <span className="hidden xs:inline sm:inline">Image </span>Compressor
+            <span className="text-sm sm:text-base font-bold tracking-tight text-black whitespace-nowrap">
+              Webistic <span className="hidden sm:inline">Image </span>Compressor
             </span>
-            <span className="text-[9px] sm:text-[10px] font-medium tracking-wide text-[#E8DFC9]/60 uppercase">
+
+            <span className="text-[9px] sm:text-[10px] font-medium tracking-wide text-black/50 uppercase">
               Powered by Webistic
             </span>
           </div>
-        </div>
+        </Link>
 
-        {/* Zone 2: Navigation Links */}
-        <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-[#E8DFC9]/75">
-          <button
-            onClick={() => onScrollToSection('workspace-section')}
-            className="hover:text-[#E8DFC9] transition-colors whitespace-nowrap cursor-pointer"
-          >
-            Workspace
-          </button>
-          <button
-            onClick={() => onScrollToSection('presets-reference')}
-            className="hover:text-[#E8DFC9] transition-colors whitespace-nowrap cursor-pointer"
-          >
-            Presets Guide
-          </button>
-          <button
-            onClick={() => onScrollToSection('privacy-reference')}
-            className="hover:text-[#E8DFC9] transition-colors whitespace-nowrap cursor-pointer"
-          >
-            Privacy Architecture
-          </button>
-          <button
-            onClick={() => onScrollToSection('faq-reference')}
-            className="hover:text-[#E8DFC9] transition-colors whitespace-nowrap cursor-pointer"
-          >
-            FAQ
-          </button>
+        {/* Desktop Navigation */}
+        <nav className="hidden lg:flex items-center gap-5 xl:gap-6 text-xs xl:text-sm font-medium">
+          {navigationLinks.map((link) => (
+            <NavLink
+              key={link.path}
+              to={link.path}
+              end={link.path === '/'}
+              className={linkClass}
+            >
+              {link.label}
+            </NavLink>
+          ))}
         </nav>
 
-        {/* Zone 3: 1 Primary Action */}
-        <div className="flex items-center gap-3 shrink-0">
+        {/* Desktop Upload Button - Unchanged */}
+        <div className="hidden sm:flex items-center shrink-0">
           <button
+            type="button"
             onClick={onUploadClick}
-            className="px-3 sm:px-4 py-1.5 sm:py-2 text-xs font-semibold text-[#E8DFC9] bg-[#2563FF] rounded-lg hover:bg-[#2563FF]/90 active:bg-[#2563FF]/80 transition-colors shadow-xs whitespace-nowrap cursor-pointer"
+            className="px-3 sm:px-4 py-2 text-xs font-semibold text-[#E8DFC9] bg-[#2563FF] rounded-lg hover:bg-[#2563FF]/90 active:bg-[#2563FF]/80 transition-colors shadow-xs whitespace-nowrap cursor-pointer"
           >
-            <span className="sm:hidden">Upload</span>
-            <span className="hidden sm:inline">Upload Images</span>
+            Upload Images
+          </button>
+        </div>
+
+        {/* Mobile Menu Button */}
+        <div className="flex lg:hidden items-center gap-2">
+          <button
+            type="button"
+            onClick={handleMobileUpload}
+            className="sm:hidden px-3 py-2 text-xs font-semibold text-[#E8DFC9] bg-[#2563FF] rounded-lg hover:bg-[#2563FF]/90 transition-colors"
+          >
+            Upload
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setMobileMenuOpen((prev) => !prev)}
+            aria-label={mobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
+            aria-expanded={mobileMenuOpen}
+            className="w-10 h-10 flex items-center justify-center rounded-lg border border-gray-200 text-black hover:bg-gray-100 transition-colors"
+          >
+            {mobileMenuOpen ? (
+              <X className="w-5 h-5" />
+            ) : (
+              <Menu className="w-5 h-5" />
+            )}
           </button>
         </div>
       </div>
+
+      {/* Mobile Navigation Dropdown */}
+      {mobileMenuOpen && (
+        <nav className="lg:hidden border-t border-gray-200 bg-white px-4 sm:px-6 py-4">
+          <div className="max-w-6xl mx-auto flex flex-col gap-1">
+            {navigationLinks.map((link) => (
+              <NavLink
+                key={link.path}
+                to={link.path}
+                end={link.path === '/'}
+                onClick={handleNavigation}
+                className={({ isActive }) =>
+                  `px-3 py-3 rounded-lg text-sm transition-colors ${
+                    isActive
+                      ? 'bg-[#2563FF]/10 text-black font-bold'
+                      : 'text-black/70 hover:bg-gray-100 hover:text-[#2563FF]'
+                  }`
+                }
+              >
+                {link.label}
+              </NavLink>
+            ))}
+
+            <button
+              type="button"
+              onClick={handleMobileUpload}
+              className="sm:hidden mt-2 w-full px-3 py-3 text-sm font-semibold text-[#E8DFC9] bg-[#2563FF] rounded-lg hover:bg-[#2563FF]/90 transition-colors"
+            >
+              Upload Images
+            </button>
+          </div>
+        </nav>
+      )}
     </header>
   );
 };
