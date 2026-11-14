@@ -13,6 +13,9 @@ import { TargetControls } from './components/controls/TargetControls';
 import { ComparisonViewer } from './components/preview/ComparisonViewer';
 import { BatchQueue } from './components/workspace/BatchQueue';
 import { Footer } from './components/layout/Footer';
+import { BlogArticlePage } from './components/blog/BlogArticlePage';
+import { BlogListingPage } from './components/blog/BlogListingPage';
+import { StudioPage } from './components/studio/StudioPage';
 
 import {
   FileItem,
@@ -45,6 +48,7 @@ export default function App() {
     items.find((item) => item.id === selectedItemId) || items[0] || null;
 
   const targetDisplay = `${targetValue} ${targetUnit}`;
+  const isStudioRoute = location.pathname.startsWith('/studio');
 
   // Load images and immediately make them available for preview.
   const handleFilesSelected = async (newFiles: File[]) => {
@@ -260,10 +264,18 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#25282B] text-[#E8DFC9] flex flex-col font-sans">
-      <Navbar onUploadClick={handleUploadClick} />
+    <div
+      className={`min-h-screen bg-[#25282B] text-[#E8DFC9] flex flex-col font-sans ${
+        isStudioRoute ? 'h-dvh overflow-hidden' : ''
+      }`}
+    >
+      {!isStudioRoute && <Navbar onUploadClick={handleUploadClick} />}
 
       <Routes>
+        <Route path="/studio/*" element={<StudioPage />} />
+        <Route path="/blog" element={<BlogListingPage />} />
+        <Route path="/blog/:slug" element={<BlogArticlePage />} />
+
         <Route
           path="/"
           element={
@@ -476,7 +488,7 @@ export default function App() {
         />
       </Routes>
 
-      <Footer />
+      {!isStudioRoute && <Footer />}
     </div>
   );
 }

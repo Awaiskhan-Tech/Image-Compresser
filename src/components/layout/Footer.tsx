@@ -1,5 +1,6 @@
 
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Layers, ShieldCheck, Mail, X } from 'lucide-react';
 
 export const Footer: React.FC = () => {
@@ -24,6 +25,10 @@ export const Footer: React.FC = () => {
           </div>
 
           <div className="flex flex-wrap items-center justify-center gap-5 font-medium">
+            <Link to="/blog" className="hover:text-[#2563FF] transition-colors">
+              Blog
+            </Link>
+
             <button
               type="button"
               onClick={() => setModalType('privacy')}
