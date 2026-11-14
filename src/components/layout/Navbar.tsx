@@ -16,6 +16,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onUploadClick }) => {
     { label: 'Privacy Architecture', path: '/privacy-architecture' },
     { label: 'How It Works', path: '/how-it-works' },
     { label: 'FAQ', path: '/faq' },
+    { label: 'Blog', path: '/blog' },
   ];
 
   const linkClass = ({ isActive }: { isActive: boolean }) =>
