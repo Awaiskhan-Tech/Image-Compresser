@@ -1,6 +1,7 @@
 
 import React, { useRef, useState } from 'react';
 import { UploadCloud, AlertCircle } from 'lucide-react';
+import Link from 'next/link';
 import {
   createSampleFile,
   SAMPLE_PRESETS,
@@ -119,6 +120,10 @@ export const Dropzone: React.FC<DropzoneProps> = ({
 
   return (
     <div className="w-full">
+      <h2 className="text-lg font-bold text-[#E8DFC9] text-center mb-3">
+        Upload Your Images
+      </h2>
+
       {/* Centred Upload Card */}
       <div className="w-[85%] mx-auto">
         <div
@@ -156,19 +161,30 @@ export const Dropzone: React.FC<DropzoneProps> = ({
             </h3>
 
             <p className="text-sm text-[#25282B]/75 mb-4 max-w-md">
-              JPG, PNG, and WebP up to 50 MB each. Batch upload supported.
+              JPG, PNG, and WebP up to 50 MB each.
+              {' '}Compress multiple images in one session. Download individual
+              results or collect the completed images in a ZIP file.
             </p>
 
             <div className="flex flex-wrap items-center justify-center gap-2 text-xs text-[#25282B]/60 font-medium">
-              <span>Client-side compression</span>
+              <span>Browser-based image processing</span>
               <span aria-hidden="true">·</span>
-              <span>Zero server uploads</span>
-              <span aria-hidden="true">·</span>
-              <span>Lossless dimension option</span>
+              <span>Allow resizing to help meet the size limit</span>
             </div>
           </div>
         </div>
       </div>
+
+      <p className="w-[85%] mx-auto mt-3 text-xs text-[#E8DFC9]/70 text-center">
+        Image compression is performed in your browser. Your selected image
+        files are not sent to Webistic&apos;s remote image-compression service.{' '}
+        <Link
+          href="/privacy-architecture"
+          className="text-[#7FA2FF] underline underline-offset-2 hover:text-white"
+        >
+          Learn how image processing works in your browser.
+        </Link>
+      </p>
 
       {/* Error alert */}
       {errorMessage && (

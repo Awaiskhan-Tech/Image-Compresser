@@ -1,6 +1,8 @@
+'use client';
 
 import React, { useState } from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { Layers, Menu, X } from 'lucide-react';
 
 interface NavbarProps {
@@ -9,6 +11,7 @@ interface NavbarProps {
 
 export const Navbar: React.FC<NavbarProps> = ({ onUploadClick }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const pathname = usePathname();
 
   const navigationLinks = [
     { label: 'Home', path: '/' },
@@ -19,16 +22,19 @@ export const Navbar: React.FC<NavbarProps> = ({ onUploadClick }) => {
     { label: 'Blog', path: '/blog' },
   ];
 
-  const linkClass = ({ isActive }: { isActive: boolean }) =>
+  const isActive = (path: string) =>
+    path === '/'
+      ? pathname === '/'
+      : pathname === path || pathname.startsWith(`${path}/`);
+
+  const linkClass = (path: string) =>
     `transition-colors whitespace-nowrap ${
-      isActive
+      isActive(path)
         ? 'text-black font-bold'
         : 'text-black/70 hover:text-[#2563FF]'
     }`;
 
-  const handleNavigation = () => {
-    setMobileMenuOpen(false);
-  };
+  const handleNavigation = () => setMobileMenuOpen(false);
 
   const handleMobileUpload = () => {
     setMobileMenuOpen(false);
@@ -38,10 +44,8 @@ export const Navbar: React.FC<NavbarProps> = ({ onUploadClick }) => {
   return (
     <header className="sticky top-0 z-50 bg-white text-black border-b border-gray-200">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
-
-        {/* Brand Wordmark */}
         <Link
-          to="/"
+          href="/"
           onClick={handleNavigation}
           className="flex items-center gap-2.5 sm:gap-3 shrink-0"
         >
@@ -53,28 +57,25 @@ export const Navbar: React.FC<NavbarProps> = ({ onUploadClick }) => {
             <span className="text-sm sm:text-base font-bold tracking-tight text-black whitespace-nowrap">
               Webistic <span className="hidden sm:inline">Image </span>Compressor
             </span>
-
             <span className="text-[9px] sm:text-[10px] font-medium tracking-wide text-black/50 uppercase">
               Powered by Webistic
             </span>
           </div>
         </Link>
 
-        {/* Desktop Navigation */}
-        <nav className="hidden lg:flex items-center gap-5 xl:gap-6 text-xs xl:text-sm font-medium">
+        <nav aria-label="Main navigation" className="hidden lg:flex items-center gap-5 xl:gap-6 text-xs xl:text-sm font-medium">
           {navigationLinks.map((link) => (
-            <NavLink
+            <Link
               key={link.path}
-              to={link.path}
-              end={link.path === '/'}
-              className={linkClass}
+              href={link.path}
+              aria-current={isActive(link.path) ? 'page' : undefined}
+              className={linkClass(link.path)}
             >
               {link.label}
-            </NavLink>
+            </Link>
           ))}
         </nav>
 
-        {/* Desktop Upload Button - Unchanged */}
         <div className="hidden sm:flex items-center shrink-0">
           <button
             type="button"
@@ -85,7 +86,6 @@ export const Navbar: React.FC<NavbarProps> = ({ onUploadClick }) => {
           </button>
         </div>
 
-        {/* Mobile Menu Button */}
         <div className="flex lg:hidden items-center gap-2">
           <button
             type="button"
@@ -100,37 +100,31 @@ export const Navbar: React.FC<NavbarProps> = ({ onUploadClick }) => {
             onClick={() => setMobileMenuOpen((prev) => !prev)}
             aria-label={mobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
             aria-expanded={mobileMenuOpen}
+            aria-controls="mobile-navigation"
             className="w-10 h-10 flex items-center justify-center rounded-lg border border-gray-200 text-black hover:bg-gray-100 transition-colors"
           >
-            {mobileMenuOpen ? (
-              <X className="w-5 h-5" />
-            ) : (
-              <Menu className="w-5 h-5" />
-            )}
+            {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
         </div>
       </div>
 
-      {/* Mobile Navigation Dropdown */}
       {mobileMenuOpen && (
-        <nav className="lg:hidden border-t border-gray-200 bg-white px-4 sm:px-6 py-4">
+        <nav id="mobile-navigation" aria-label="Mobile navigation" className="lg:hidden border-t border-gray-200 bg-white px-4 sm:px-6 py-4">
           <div className="max-w-6xl mx-auto flex flex-col gap-1">
             {navigationLinks.map((link) => (
-              <NavLink
+              <Link
                 key={link.path}
-                to={link.path}
-                end={link.path === '/'}
+                href={link.path}
+                aria-current={isActive(link.path) ? 'page' : undefined}
                 onClick={handleNavigation}
-                className={({ isActive }) =>
-                  `px-3 py-3 rounded-lg text-sm transition-colors ${
-                    isActive
-                      ? 'bg-[#2563FF]/10 text-black font-bold'
-                      : 'text-black/70 hover:bg-gray-100 hover:text-[#2563FF]'
-                  }`
-                }
+                className={`px-3 py-3 rounded-lg text-sm transition-colors ${
+                  isActive(link.path)
+                    ? 'bg-[#2563FF]/10 text-black font-bold'
+                    : 'text-black/70 hover:bg-gray-100 hover:text-[#2563FF]'
+                }`}
               >
                 {link.label}
-              </NavLink>
+              </Link>
             ))}
 
             <button

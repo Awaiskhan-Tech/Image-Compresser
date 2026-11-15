@@ -123,27 +123,25 @@ export const ComparisonViewer: React.FC<ComparisonViewerProps> = ({
       {viewMode === 'side-by-side' ? (
         <div className="grid grid-cols-2 gap-3 sm:gap-4">
           {/* Original Image */}
-          <div className="min-w-0 overflow-hidden rounded-xl border border-[#E8DFC9]/15 bg-[#E8DFC9]/[0.03]">
-            <div className="px-2.5 sm:px-3 py-3 border-b border-[#E8DFC9]/10 flex flex-wrap items-center justify-between gap-1">
-              <span className="text-xs font-bold">Original</span>
+          <div className="flex flex-col rounded-xl border border-[#E8DFC9]/15 bg-[#25282B] overflow-hidden">
+            <div className="px-3 py-2 border-b border-[#E8DFC9]/10 flex items-center justify-between text-xs font-semibold text-[#E8DFC9]">
+              <span>Original</span>
 
-              <span className="text-[10px] sm:text-xs font-mono text-[#E8DFC9]/65">
+              <span className="font-mono tabular-nums text-[#E8DFC9]/70">
                 {formatBytes(originalMeta.originalSize)}
               </span>
             </div>
 
-            <div className="h-[220px] sm:h-[340px] lg:h-[420px] p-2 flex items-center justify-center bg-black/10">
+            <div className="h-[260px] flex items-center justify-center p-2">
               <img
                 src={item.originalUrl}
-                alt="Original image"
+                alt="Original source"
                 className="max-h-full max-w-full object-contain"
               />
             </div>
 
-            <div className="px-2.5 sm:px-3 py-2 border-t border-[#E8DFC9]/10">
-              <p className="text-[10px] sm:text-xs text-[#E8DFC9]/55">
-                {originalMeta.width} × {originalMeta.height} px
-              </p>
+            <div className="px-3 py-1.5 text-[11px] text-[#E8DFC9]/60 border-t border-[#E8DFC9]/10">
+              {originalMeta.width} × {originalMeta.height} px
             </div>
           </div>
 

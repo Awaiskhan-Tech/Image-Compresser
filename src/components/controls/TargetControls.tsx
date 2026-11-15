@@ -1,5 +1,6 @@
 
 import React from 'react';
+import Link from 'next/link';
 import { TargetSizeUnit, SupportedFormat } from '../../lib/compression/types';
 import { Sliders, Maximize2, Zap } from 'lucide-react';
 
@@ -167,6 +168,39 @@ export const TargetControls: React.FC<TargetControlsProps> = ({
             </p>
           )}
         </div>
+
+        <div className="mt-4 space-y-2 text-[11px] text-[#E8DFC9]/65 leading-relaxed">
+          <p>
+            Set a maximum file size in KB or MB. The compressor will try to
+            bring your image within that limit. If it cannot reach the
+            selected limit, it will let you know.
+          </p>
+          <p>
+            Not sure which size to choose? See our{' '}
+            <Link
+              href="/presets-guide"
+              className="text-[#7FA2FF] underline underline-offset-2 hover:text-white"
+            >
+              Image Size Presets Guide
+            </Link>
+            .
+          </p>
+          <p>
+            Have questions about compression limits or quality? Read our{' '}
+            <Link
+              href="/faq"
+              className="text-[#7FA2FF] underline underline-offset-2 hover:text-white"
+            >
+              Image Compressor FAQ
+            </Link>
+            .
+          </p>
+          <p>
+            Image quality can change when reducing file size. JPG and WebP
+            compression may reduce image detail. Resizing can also change image
+            dimensions. Compare your result before downloading.
+          </p>
+        </div>
       </div>
 
       {/* Output Format */}
@@ -227,8 +261,8 @@ export const TargetControls: React.FC<TargetControlsProps> = ({
             </span>
 
             <p className="text-[11px] text-[#E8DFC9]/55 leading-relaxed mt-1">
-              Maintain aspect ratio and reduce dimensions only when
-              necessary to reach the target.
+              When enabled, the compressor may reduce dimensions to help meet
+              your selected size limit.
             </p>
           </div>
         </label>

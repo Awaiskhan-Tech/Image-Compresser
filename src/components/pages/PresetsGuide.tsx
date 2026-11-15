@@ -1,5 +1,6 @@
 
 import React from 'react';
+import Link from 'next/link';
 import { TargetSizeUnit } from '../../lib/compression/types';
 
 interface PresetsGuideProps {
@@ -16,7 +17,7 @@ export const PresetsGuide: React.FC<PresetsGuideProps> = ({
       recommendedValue: 100,
       recommendedUnit: 'KB' as TargetSizeUnit,
       description:
-        'Candidate photos, signature scans, and student forms with strict 100 KB ceilings.',
+        'Illustrative starting range for candidate photos, signature scans or student forms. Check the destination’s file-size and image-dimension instructions.',
     },
     {
       title: 'Job Applicant Portals',
@@ -24,7 +25,7 @@ export const PresetsGuide: React.FC<PresetsGuideProps> = ({
       recommendedValue: 200,
       recommendedUnit: 'KB' as TargetSizeUnit,
       description:
-        'Resume headshots and CV attachments. Balances facial clarity with ATS upload limits.',
+        'Illustrative starting range for resume headshots or CV attachments. Upload limits vary by portal, so check its specific instructions.',
     },
     {
       title: 'Web Graphics & Banners',
@@ -32,7 +33,7 @@ export const PresetsGuide: React.FC<PresetsGuideProps> = ({
       recommendedValue: 500,
       recommendedUnit: 'KB' as TargetSizeUnit,
       description:
-        'Optimized for Google Core Web Vitals (LCP) and fast mobile page loads.',
+        'Illustrative starting range for web graphics and banners. A suitable size depends on image dimensions, format and the page’s needs.',
     },
     {
       title: 'Email & Document Attachments',
@@ -40,7 +41,7 @@ export const PresetsGuide: React.FC<PresetsGuideProps> = ({
       recommendedValue: 1,
       recommendedUnit: 'MB' as TargetSizeUnit,
       description:
-        'Prevents email bounce-backs while safely maintaining high-resolution detail.',
+        'Illustrative starting range for email or document attachments. Check the provider’s attachment limit and any recipient requirements.',
     },
   ];
 
@@ -54,18 +55,47 @@ export const PresetsGuide: React.FC<PresetsGuideProps> = ({
             </p>
 
             <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-4">
-              Portal Presets Guide
+              Choosing an Image Size for an Upload
             </h1>
 
             <p className="text-sm sm:text-base text-[#E8DFC9]/70 max-w-2xl leading-relaxed">
-              Choose recommended image sizes for common application portals,
-              job applications, websites, and document attachments.
+              Different websites, application forms and email providers can
+              have different image file-size limits. The right target depends
+              on the instructions for the destination you're using. This guide
+              provides illustrative starting points to help you choose a
+              target before compressing an image.
             </p>
           </div>
 
-          <h2 className="text-lg font-bold mb-4">
-            Common Portal Size Targets
+          <section className="mb-8 rounded-xl border border-[#E8DFC9]/15 bg-[#2D3033] p-5 sm:p-6">
+            <h2 className="text-lg font-bold mb-3">
+              How to Choose an Image File-Size Target
+            </h2>
+            <p className="text-sm text-[#E8DFC9]/70 leading-relaxed">
+              Start by checking the maximum file size stated by the website,
+              form or service where you plan to upload your image. Choose a
+              target at or below that limit, leaving a little room if the
+              instructions allow it. Image dimensions and file format also
+              affect the final size. A compressor can attempt to meet your
+              selected maximum, but some images may remain above it.{' '}
+              <Link
+                href="/how-it-works"
+                className="text-[#7FA2FF] underline underline-offset-2 hover:text-white"
+              >
+                Learn how image compression works
+              </Link>
+              .
+            </p>
+          </section>
+
+          <h2 className="text-lg font-bold mb-2">
+            Illustrative Starting Ranges by Use Case
           </h2>
+          <p className="text-xs text-[#E8DFC9]/50 italic mb-4">
+            These ranges are examples, not universal requirements. Always
+            check the file-size and image-dimension instructions for your
+            specific destination.
+          </p>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {portalPresets.map((preset) => (
@@ -105,10 +135,14 @@ export const PresetsGuide: React.FC<PresetsGuideProps> = ({
             ))}
           </div>
 
-          <p className="text-xs text-[#E8DFC9]/50 italic mt-6">
-            Note: Portal specifications vary by institution. Always verify
-            required KB limits before submission.
-          </p>
+          <div className="mt-8">
+            <Link
+              href="/"
+              className="inline-flex min-h-11 items-center justify-center rounded-lg bg-[#2563FF] px-5 py-3 text-sm font-bold text-white transition-colors hover:bg-[#2563FF]/90"
+            >
+              Go to the image compressor
+            </Link>
+          </div>
         </div>
       </section>
     </main>

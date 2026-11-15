@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react';
+'use client';
+
+import { useEffect, useRef, useState } from 'react';
 import { ArrowRight, BookOpen, Clock3 } from 'lucide-react';
-import { Link } from 'react-router-dom';
-import { usePageMetadata } from './usePageMetadata';
+import Link from 'next/link';
 import { absoluteSiteUrl, formatPublicationDate } from './blogUtils';
 import { getSanityImageUrl } from '../../lib/sanity/images';
 import { sanityClient } from '../../lib/sanity/client';
@@ -13,11 +14,6 @@ import {
 import type { BlogPost } from '../../lib/sanity/types';
 
 const PAGE_SIZE = 9;
-const pageMetadata = {
-  title: 'Image Optimization Insights & Guides | Webistic Blog',
-  description:
-    'Practical image optimization guides, product insights, and privacy-first workflows from the Webistic team.',
-};
 
 function ArticleCard({ post }: { post: BlogPost }) {
   const imageUrl = getSanityImageUrl(post.coverImage, {
@@ -28,7 +24,7 @@ function ArticleCard({ post }: { post: BlogPost }) {
 
   return (
     <article className="group overflow-hidden rounded-2xl border border-[#E8DFC9]/12 bg-[#2D3033] transition duration-300 hover:-translate-y-1 hover:border-[#2563FF]/50 hover:shadow-xl hover:shadow-black/20">
-      <Link to={`/blog/${post.slug}`} className="block">
+      <Link href={absoluteSiteUrl(`/blog/${post.slug}`)} className="block">
         <div className="aspect-[16/10] overflow-hidden bg-[#1C1F21]">
           {imageUrl ? (
             <img
@@ -73,19 +69,36 @@ function ArticleCard({ post }: { post: BlogPost }) {
   );
 }
 
-export function BlogListingPage() {
-  const [posts, setPosts] = useState<BlogPost[]>([]);
-  const [categories, setCategories] = useState<string[]>([]);
+interface BlogListingPageProps {
+  initialPosts: BlogPost[];
+  initialTotal: number;
+  initialCategories: string[];
+  initialError?: string | null;
+}
+
+export function BlogListingPage({
+  initialPosts,
+  initialTotal,
+  initialCategories,
+  initialError = null,
+}: BlogListingPageProps) {
+  const [posts, setPosts] = useState<BlogPost[]>(initialPosts);
+  const [categories, setCategories] = useState<string[]>(initialCategories);
   const [category, setCategory] = useState('all');
-  const [total, setTotal] = useState(0);
-  const [isLoading, setIsLoading] = useState(true);
+  const [total, setTotal] = useState(initialTotal);
+  const [isLoading, setIsLoading] = useState(false);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(initialError);
   const [retryToken, setRetryToken] = useState(0);
 
-  usePageMetadata({ ...pageMetadata, canonicalUrl: absoluteSiteUrl('/blog') });
+  const hasMounted = useRef(false);
 
   useEffect(() => {
+    if (!hasMounted.current) {
+      hasMounted.current = true;
+      return;
+    }
+
     let active = true;
     setIsLoading(true);
     setError(null);
@@ -99,13 +112,11 @@ export function BlogListingPage() {
         category,
       }),
       sanityClient.fetch<number>(POST_COUNT_QUERY, { category }),
-      sanityClient.fetch<string[]>(CATEGORIES_QUERY),
     ])
-      .then(([nextPosts, nextTotal, nextCategories]) => {
+      .then(([nextPosts, nextTotal]) => {
         if (!active) return;
         setPosts(nextPosts);
         setTotal(nextTotal);
-        setCategories(nextCategories.filter(Boolean).sort((a, b) => a.localeCompare(b)));
       })
       .catch((cause: unknown) => {
         if (!active) return;
@@ -217,7 +228,7 @@ export function BlogListingPage() {
             <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-[#E8DFC9]/60">
               There are no published articles in this category yet. Check back soon.
             </p>
-            <Link to="/" className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-[#7FA2FF] hover:text-white">
+            <Link href="/" className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-[#7FA2FF] hover:text-white">
               Explore the image compressor <ArrowRight className="h-4 w-4" aria-hidden="true" />
             </Link>
           </div>
@@ -226,7 +237,7 @@ export function BlogListingPage() {
             {featuredPost && (
               <article className="mb-8 grid overflow-hidden rounded-3xl border border-[#E8DFC9]/12 bg-[#2D3033] lg:grid-cols-[1.05fr_0.95fr]">
                 <Link
-                  to={`/blog/${featuredPost.slug}`}
+                  href={absoluteSiteUrl(`/blog/${featuredPost.slug}`)}
                   aria-label={`Read featured article: ${featuredPost.title}`}
                   className="group min-h-64 overflow-hidden bg-[#1C1F21] lg:min-h-[390px]"
                 >
@@ -243,7 +254,7 @@ export function BlogListingPage() {
                     Featured · {featuredPost.category}
                   </span>
                   <h2 className="text-2xl font-extrabold leading-tight sm:text-3xl">
-                    <Link to={`/blog/${featuredPost.slug}`} className="transition-colors hover:text-white">
+                    <Link href={absoluteSiteUrl(`/blog/${featuredPost.slug}`)} className="transition-colors hover:text-white">
                       {featuredPost.title}
                     </Link>
                   </h2>
@@ -252,7 +263,7 @@ export function BlogListingPage() {
                     By {featuredPost.authorName} <span className="mx-2">·</span>
                     {formatPublicationDate(featuredPost.publishedAt)}
                   </div>
-                  <Link to={`/blog/${featuredPost.slug}`} className="mt-7 inline-flex items-center gap-2 text-sm font-bold text-[#7FA2FF] hover:text-white">
+                  <Link href={absoluteSiteUrl(`/blog/${featuredPost.slug}`)} className="mt-7 inline-flex items-center gap-2 text-sm font-bold text-[#7FA2FF] hover:text-white">
                     Read the story <ArrowRight className="h-4 w-4" aria-hidden="true" />
                   </Link>
                 </div>

@@ -1,5 +1,6 @@
 
 import { useEffect } from 'react';
+import { absoluteSiteUrl } from './blogUtils';
 
 export interface PageMetadata {
   title: string;
@@ -18,8 +19,7 @@ const defaultTitle =
 const defaultDescription =
   'Compress JPG, PNG and WebP images online for free. Reduce image file sizes to your target KB or MB directly in your browser. Fast, private and easy.';
 
-const defaultCanonicalUrl =
-  'https://www.webisticimagecompressor.online/';
+const defaultCanonicalUrl = absoluteSiteUrl('/');
 
 function setMeta(
   attribute: 'name' | 'property',
