@@ -1,30 +1,74 @@
 
 import React, { useState } from 'react';
 import { ChevronDown } from 'lucide-react';
+import Link from 'next/link';
 
 export const FAQ: React.FC = () => {
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0);
 
   const faqs = [
     {
-      q: 'How does Webistic achieve an exact KB or MB target?',
-      a: 'Unlike generic compressors that use arbitrary quality sliders (leaving you to guess the output size), Webistic runs a fast binary search algorithm in browser memory, evaluating actual Blob byte sizes to find the highest possible fidelity under your ceiling.',
+      q: 'How does the compressor try to meet a KB or MB size limit?',
+      a: (
+        <>
+          Set a maximum file size. The compressor checks the encoded output and
+          adjusts quality where the format supports it. If needed and enabled,
+          it can also resize the image. It tries to meet the limit, but some
+          images may remain above it; the result indicates whether the limit was
+          met. For a fuller explanation, see{' '}
+          <Link href="/how-it-works" className="text-[#7FA2FF] underline underline-offset-2 hover:text-white">
+            How It Works
+          </Link>
+          .
+        </>
+      ),
     },
     {
-      q: 'Will my image dimensions (resolution) change?',
-      a: 'By default, the engine prioritizes 100% native resolution by adjusting compression quality alone. If a target is mathematically too low to achieve through quality reduction without severe distortion, the optional auto-downscale feature will proportionally adjust dimensions.',
+      q: 'Will compression change image quality or dimensions?',
+      a: 'It can. JPG and WebP compression may reduce image detail. The compressor first tries to keep the original dimensions; if auto-downscaling is enabled and needed, it may resize the image. Compare the result before downloading. Resizing changes dimensions.',
     },
     {
-      q: 'Why does PNG compression behave differently?',
-      a: 'PNG is a lossless format without standard lossy quality controls. When compressing PNG, we optimize palette data and pixel dimensions. For aggressive compression with transparency, WebP output is recommended.',
+      q: 'Why can a PNG remain above my file-size limit?',
+      a: (
+        <>
+          PNG uses lossless encoding, so it does not use a JPG/WebP-style
+          quality setting. If the PNG is still too large, resizing may help;
+          the target may still not be met. WebP is another option when
+          appropriate, but its compression may reduce image detail. Try the{' '}
+          <Link href="/" className="text-[#7FA2FF] underline underline-offset-2 hover:text-white">
+            compressor on the homepage
+          </Link>
+          .
+        </>
+      ),
     },
     {
-      q: 'Are my private documents, IDs, or photos uploaded anywhere?',
-      a: 'No. All processing is 100% local. Your files never touch a server.',
+      q: 'Are my images uploaded when I use the compressor?',
+      a: (
+        <>
+          Image compression is performed in your browser. Your selected image
+          files are not sent to Webistic’s remote image-compression service.
+          For more detail, see our{' '}
+          <Link href="/privacy-architecture" className="text-[#7FA2FF] underline underline-offset-2 hover:text-white">
+            Privacy Architecture
+          </Link>
+          .
+        </>
+      ),
     },
     {
-      q: 'Can I batch compress multiple images?',
-      a: 'Yes. You can upload multiple images simultaneously. Each file is processed independently, and you can download them individually or as a single ZIP archive.',
+      q: 'Can I compress multiple images and download them together?',
+      a: (
+        <>
+          Yes. Select multiple images and compress them in one session. Each
+          image is processed as its own file. Download results individually or,
+          when multiple results are ready, collect them in a ZIP file. Use the{' '}
+          <Link href="/" className="text-[#7FA2FF] underline underline-offset-2 hover:text-white">
+            homepage image compressor
+          </Link>{' '}
+          to compress a batch.
+        </>
+      ),
     },
   ];
 
@@ -38,7 +82,7 @@ export const FAQ: React.FC = () => {
             </p>
 
             <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-4">
-              Frequently Asked Questions
+              Image Compressor FAQs
             </h1>
 
             <p className="text-sm sm:text-base text-[#E8DFC9]/70 max-w-2xl leading-relaxed">
@@ -56,22 +100,24 @@ export const FAQ: React.FC = () => {
                   key={idx}
                   className="rounded-xl border border-[#E8DFC9]/15 bg-[#2D3033] overflow-hidden"
                 >
-                  <button
-                    type="button"
-                    onClick={() =>
-                      setOpenFaqIndex(isOpen ? null : idx)
-                    }
-                    aria-expanded={isOpen}
-                    className="w-full p-4 sm:p-5 text-left flex items-center justify-between gap-4 text-sm font-bold text-[#E8DFC9] cursor-pointer"
-                  >
-                    <span>{faq.q}</span>
+                  <h2 className="m-0">
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setOpenFaqIndex(isOpen ? null : idx)
+                      }
+                      aria-expanded={isOpen}
+                      className="w-full p-4 sm:p-5 text-left flex items-center justify-between gap-4 text-sm font-bold text-[#E8DFC9] cursor-pointer"
+                    >
+                      <span>{faq.q}</span>
 
-                    <ChevronDown
-                      className={`w-4 h-4 text-[#E8DFC9]/60 shrink-0 transition-transform duration-200 ${
-                        isOpen ? 'rotate-180 text-[#2563FF]' : ''
-                      }`}
-                    />
-                  </button>
+                      <ChevronDown
+                        className={`w-4 h-4 text-[#E8DFC9]/60 shrink-0 transition-transform duration-200 ${
+                          isOpen ? 'rotate-180 text-[#2563FF]' : ''
+                        }`}
+                      />
+                    </button>
+                  </h2>
 
                   {isOpen && (
                     <div className="px-4 sm:px-5 pb-5 text-sm text-[#E8DFC9]/75 border-t border-[#E8DFC9]/10 pt-4 leading-relaxed">

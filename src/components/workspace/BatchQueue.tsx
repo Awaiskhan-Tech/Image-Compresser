@@ -59,9 +59,9 @@ export const BatchQueue: React.FC<BatchQueueProps> = ({
       {/* Batch Header Bar */}
       <div className="p-4 sm:p-5 border-b border-[#E8DFC9]/10 flex flex-wrap items-center justify-between gap-4">
         <div>
-          <h4 className="text-sm font-bold text-[#E8DFC9] tracking-tight">
+          <h2 className="text-sm font-bold text-[#E8DFC9] tracking-tight">
             Queue ({items.length} {items.length === 1 ? 'file' : 'files'})
-          </h4>
+          </h2>
           <p className="text-xs text-[#E8DFC9]/60 font-medium">
             {completedCount} of {items.length} ready
             {completedCount > 0 && ` · Saved ${formatBytes(totalSavings.savedBytes)} (-${totalSavings.percent}%)`}
