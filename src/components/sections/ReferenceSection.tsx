@@ -45,20 +45,16 @@ export const ReferenceSection: React.FC<ReferenceSectionProps> = ({ onSelectPres
 
   const privacyPoints = [
     {
-      title: 'Zero Server Uploads',
-      detail: 'Your images are never transmitted over the internet to remote servers or cloud storage.',
+      title: 'Local Image Processing',
+      detail: 'Selected images are processed in your browser and are not uploaded to Webistic remote image-processing servers.',
     },
     {
-      title: '100% In-Browser Execution',
-      detail: 'Calculations occur entirely on your device CPU using Canvas and ImageBitmap APIs.',
+      title: 'Browser-Based Execution',
+      detail: 'Image compression and conversion use browser capabilities, including Canvas and ImageBitmap APIs.',
     },
     {
-      title: 'Ephemeral Memory Lifecycle',
-      detail: 'Memory buffers are automatically garbage-collected when files are cleared or the tab closes.',
-    },
-    {
-      title: 'Offline Capable',
-      detail: 'Once loaded, Webistic works seamlessly even with your network disconnected.',
+      title: 'Temporary Resource Cleanup',
+      detail: 'Temporary image URLs are revoked when files are removed or the compressor provider is unmounted.',
     },
   ];
 
@@ -100,7 +96,7 @@ export const ReferenceSection: React.FC<ReferenceSectionProps> = ({ onSelectPres
     },
     {
       q: 'Are my private documents, IDs, or photos uploaded anywhere?',
-      a: 'No. All processing is 100% local. Your files never touch a server.',
+      a: 'Images are processed locally in your browser and are not sent to Webistic remote image-processing servers. The website makes separate requests to services such as Google Fonts and Sanity for website functionality.',
     },
     {
       q: 'Can I batch compress multiple images?',
@@ -208,7 +204,7 @@ export const ReferenceSection: React.FC<ReferenceSectionProps> = ({ onSelectPres
                 <span>Client-Side Privacy Architecture</span>
               </h3>
               <p className="text-xs text-[#E8DFC9]/70 mt-0.5">
-                Webistic is engineered for complete data isolation. Confidential documents and private photographs remain entirely on your device.
+                Image compression is performed locally in your browser. The website also uses external services for fonts and published blog content.
               </p>
             </div>
 

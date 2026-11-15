@@ -1,9 +1,9 @@
-const configuredSiteUrl = import.meta.env.VITE_SITE_URL?.replace(/\/+$/, '');
+const configuredSiteUrl = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/+$/, '');
 
 export function absoluteSiteUrl(path: string): string {
   const baseUrl =
     configuredSiteUrl ||
-    (typeof window !== 'undefined' ? window.location.origin : 'https://webistic.co');
+    (typeof window !== 'undefined' ? window.location.origin : 'https://www.webisticimagecompressor.online');
   return new URL(path.replace(/^\/+/, ''), `${baseUrl}/`).toString();
 }
 

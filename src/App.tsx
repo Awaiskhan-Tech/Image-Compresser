@@ -273,8 +273,6 @@ export default function App() {
 
       <Routes>
         <Route path="/studio/*" element={<StudioPage />} />
-        <Route path="/blog" element={<BlogListingPage />} />
-        <Route path="/blog/:slug" element={<BlogArticlePage />} />
 
         <Route
           path="/"

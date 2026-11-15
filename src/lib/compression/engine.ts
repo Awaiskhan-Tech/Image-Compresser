@@ -69,6 +69,7 @@ export async function compressImage(
   const loaded: LoadedImageSource = await loadAndInspectImage(file);
   const { img, meta } = loaded;
 
+  try {
   const targetBytes = settings.targetBytes;
   const { mime: targetMime, note: formatNote } = resolveTargetMime(
     meta.originalFormat,
@@ -126,14 +127,18 @@ export async function compressImage(
       blob = await canvasToBlob(currentCanvas, targetMime, 1.0);
       iterationsCount++;
 
+      if (!blob) {
+        throw new Error('Failed to encode downscaled PNG image blob.');
+      }
+
       onProgress?.(100);
-      const url = URL.createObjectURL(blob!);
-      const targetMet = (blob?.size || 0) <= targetBytes;
+      const url = URL.createObjectURL(blob);
+      const targetMet = blob.size <= targetBytes;
 
       return {
-        blob: blob!,
+        blob,
         url,
-        bytes: blob!.size,
+        bytes: blob.size,
         width: finalWidth,
         height: finalHeight,
         format: targetMime,
@@ -144,7 +149,7 @@ export async function compressImage(
         targetMet,
         message: targetMet
           ? `Downscaled dimensions to ${finalWidth}×${finalHeight} to meet PNG target.`
-          : `PNG is lossless; reached ${formatBytes(blob!.size)}. Switch to WebP to preserve transparency at smaller file sizes.`,
+          : `PNG is lossless; reached ${formatBytes(blob.size)}. Switch to WebP to preserve transparency at smaller file sizes.`,
       };
     } else {
       // Downscale not allowed
@@ -290,7 +295,10 @@ export async function compressImage(
   }
 
   // If still over target or downscaling was disabled:
-  const fallbackBlob = smallestBlobOverTarget || (await canvasToBlob(canvas, targetMime, 0.05))!;
+  const fallbackBlob = smallestBlobOverTarget ?? (await canvasToBlob(canvas, targetMime, 0.05));
+  if (!fallbackBlob) {
+    throw new Error('Failed to encode the final compressed image.');
+  }
   onProgress?.(100);
   const url = URL.createObjectURL(fallbackBlob);
   const isMet = fallbackBlob.size <= targetBytes;
@@ -315,4 +323,7 @@ export async function compressImage(
             : 'Target size is extremely small for this image.'
         }`,
   };
+  } finally {
+    URL.revokeObjectURL(loaded.objectUrl);
+  }
 }
