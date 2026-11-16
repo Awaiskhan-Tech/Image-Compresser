@@ -123,7 +123,7 @@ export const ComparisonViewer: React.FC<ComparisonViewerProps> = ({
       {viewMode === 'side-by-side' ? (
         <div className="grid grid-cols-2 gap-3 sm:gap-4">
           {/* Original Image */}
-          <div className="flex flex-col rounded-xl border border-[#E8DFC9]/15 bg-[#25282B] overflow-hidden">
+          <div className="flex flex-col rounded-xl border border-[#E8DFC9]/15 bg-[#25282B] overflow-hidden transition-all duration-300 ease-out hover:-translate-y-1 hover:border-[#2563FF]/60 hover:shadow-xl hover:shadow-[#2563FF]/10">
             <div className="px-3 py-2 border-b border-[#E8DFC9]/10 flex items-center justify-between text-xs font-semibold text-[#E8DFC9]">
               <span>Original</span>
 
