@@ -15,11 +15,11 @@ export const Footer: React.FC = () => {
             </div>
             <span className="font-bold text-black">Webistic Image Compressor</span>
             <span aria-hidden="true" className="text-black/30">·</span>
-            <a
-  href="https://webistic.co"
+           <a
+  href="https://webistic.co/"
   target="_blank"
   rel="noopener noreferrer"
-  className="text-black/60 transition-colors hover:text-[#2563FF]"
+  className="cursor-pointer font-semibold text-[#008CFF] underline decoration-[#008CFF]/40 underline-offset-4 transition-colors duration-200 hover:text-[#00BFFF] hover:decoration-[#00BFFF]"
 >
   Powered by Webistic
 </a>
