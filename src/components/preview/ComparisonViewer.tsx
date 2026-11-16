@@ -146,7 +146,7 @@ export const ComparisonViewer: React.FC<ComparisonViewerProps> = ({
           </div>
 
           {/* Compressed Image */}
-          <div className="min-w-0 overflow-hidden rounded-xl border border-[#2563FF]/40 bg-[#E8DFC9]/[0.03]">
+          <div className="min-w-0 overflow-hidden rounded-xl border border-[#2563FF]/40 bg-[#E8DFC9]/[0.03] transition-all duration-300 ease-out hover:-translate-y-1 hover:scale-[1.01] hover:border-[#2563FF]/70 hover:shadow-xl hover:shadow-[#2563FF]/10 motion-reduce:transition-none motion-reduce:transform-none">
             <div className="px-2.5 sm:px-3 py-3 border-b border-[#E8DFC9]/10 flex flex-wrap items-center justify-between gap-1">
               <span className="text-xs font-bold text-[#2563FF]">
                 Compressed
@@ -226,13 +226,12 @@ export const ComparisonViewer: React.FC<ComparisonViewerProps> = ({
         </div>
       )}
 
-      {/* Image Details */}
-      <div className="rounded-xl border border-[#E8DFC9]/15 bg-[#E8DFC9]/[0.03] overflow-hidden">
-        <div className="px-4 py-3 border-b border-[#E8DFC9]/10">
-          <h3 className="text-sm font-bold">Image details</h3>
-        </div>
-
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-y-5 gap-x-3 p-4">
+     {/* Image Details */}
+<div className="rounded-xl border border-[#E8DFC9]/15 bg-[#E8DFC9]/[0.03] overflow-hidden transition-all duration-300 ease-out hover:-translate-y-1 hover:scale-[1.01] hover:border-[#2563FF]/50 hover:shadow-xl hover:shadow-[#2563FF]/10 motion-reduce:transition-none motion-reduce:transform-none">
+  <div className="px-4 py-3 border-b border-[#E8DFC9]/10">
+    <h3 className="text-sm font-bold">Image details</h3>
+  </div>
+  <div className="grid grid-cols-2 sm:grid-cols-3 gap-y-5 gap-x-3 p-4">
           <div>
             <p className="text-[10px] uppercase tracking-wider font-semibold text-[#E8DFC9]/50 mb-1">
               Original size
