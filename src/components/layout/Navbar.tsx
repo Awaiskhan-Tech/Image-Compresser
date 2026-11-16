@@ -58,11 +58,11 @@ export const Navbar: React.FC<NavbarProps> = ({ onUploadClick }) => {
               Webistic <span className="hidden sm:inline">Image </span>Compressor
             </span>
             <a
-  href="https://webistic.co"
+  href="https://webistic.co/"
   target="_blank"
   rel="noopener noreferrer"
   onClick={(e) => e.stopPropagation()}
-  className="text-[9px] sm:text-[10px] font-medium tracking-wide text-black/50 uppercase hover:text-[#2563FF] transition-colors"
+  className="text-[9px] sm:text-[10px] font-semibold tracking-wide text-[#008CFF] uppercase underline decoration-[#008CFF]/40 underline-offset-4 hover:text-[#00BFFF] hover:decoration-[#00BFFF] transition-colors duration-200 cursor-pointer"
 >
   Powered by Webistic
 </a>
